@@ -99,13 +99,15 @@ class PageController extends Controller
       );
     }
 
-    Util::addScript(Application::APP_ID, 'qrcode.min');
+    Util::addScript(Application::APP_ID, 'vendor/qrcode.min');
 
     try {
       $uid = $this->currentUser->getUID();
       $params = [
-        'frames' => $this->frameMapper->getAllByUser($uid),
-        'urlGenerator' => $this->urlGenerator,
+        'pageProps' => [
+          'frames' => $this->frameMapper->getAllByUser($uid),
+        ],
+        'appPath' => $this->appManager->getAppWebPath('photo_frames'),
       ];
 
       return new TemplateResponse(
